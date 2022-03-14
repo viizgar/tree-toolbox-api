@@ -14,10 +14,12 @@ services:
             - 8080:8080
             - 9229:9229
         networks:
-            - nesjs-network
+            - app-network
         volumes:
             - .:/usr/src/app
             - /usr/src/app/node_modules
+        environment:
+            - DATABASE_URL=postgresql://toolbox:toolbox@db:5432/toolbox
         restart: unless-stopped
     prod:
         container_name: tree-toolbox_api_prod
@@ -31,11 +33,39 @@ services:
             - 3000:3000
             - 9229:9229
         networks:
-            - nesjs-network
+            - app-network
         volumes:
             - .:/usr/src/app
             - /usr/src/app/node_modules
+        environment:
+            - DATABASE_URL=postgresql://toolbox:toolbox@db:5432/toolbox
         restart: unless-stopped
+    db:
+        image: postgres:latest
+        restart: always
+        volumes:
+            - db-volume:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - app-network
+        environment:
+            - POSTGRES_PASSWORD=toolbox
+            - POSTGRES_USER=toolbox
+            - POSTGRES_DB=toolbox
 
+    adminer:
+        image: adminer:latest
+        restart: always
+        ports:
+            - "8081:8080"
+        depends_on:
+            - db
+        networks:
+            - app-network
 networks:
-    nesjs-network:
+    app-network:
+
+volumes:
+  db-volume:
+    

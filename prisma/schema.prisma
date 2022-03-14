@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+model NodeType {
+  id                Int        @id @default(autoincrement())
+  namespaceRel      Namespace  @relation(fields: [namespace], references: [uri])
+  namespace         String
+  name              String
+  label             String
+  ricoRecordSetType String
+  classification    String     @default("BESTAND")
+  created           DateTime   @default(now())
+  modified          DateTime   @updatedAt
+  weight            Int        @default(999)
+  parents           NodeType?  @relation("parentIds", fields: [nodeTypeId], references: [id])
+  parentIds         Int[]
+  nodeTypeId        Int?
+  Parents           NodeType[] @relation("parentIds")
+  
+  Skeleton          Skeleton[]
+}
+
+model Skeleton {
+  nodeTypeRel NodeType @relation(fields: [nodeType], references: [id])
+  nodeType    Int
+  fieldRel    Field    @relation(fields: [field], references: [id])
+  field       Int
+  created     DateTime @default(now())
+  modified    DateTime @updatedAt
+
+  @@id([nodeType, field])
+}
+
+model Field {
+  id           Int       @id @default(autoincrement())
+  namespaceRel Namespace @relation(fields: [namespace], references: [uri])
+  namespace    String
+  name         String
+  label        String
+  weight       Int       @default(999)
+  restrictions Json
+  fieldType    String
+  created      DateTime  @default(now())
+  modified     DateTime  @updatedAt
+  description  String
+
+  Skeleton Skeleton[]
+}
+
+model Namespace {
+  uri      String   @id
+  prefix   String   @unique
+  created  DateTime @default(now())
+  modified DateTime @updatedAt
+
+  Field    Field[]
+  NodeType NodeType[]
+}
