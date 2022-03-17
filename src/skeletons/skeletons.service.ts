@@ -1,26 +1,54 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma, Skeleton } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 import { CreateSkeletonDto } from './dto/create-skeleton.dto';
 import { UpdateSkeletonDto } from './dto/update-skeleton.dto';
 
 @Injectable()
 export class SkeletonsService {
-  create(createSkeletonDto: CreateSkeletonDto) {
-    return 'This action adds a new skeleton';
+
+  constructor(private readonly prisma: PrismaService) {}
+
+  create(data: CreateSkeletonDto) : Promise<Skeleton> {
+    return this.prisma.skeleton.create({
+      data,
+    });  
   }
 
-  findAll() {
-    return `This action returns all skeletons`;
+  findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.SkeletonWhereUniqueInput;
+    where?: Prisma.SkeletonWhereInput;
+    orderBy?: Prisma.SkeletonOrderByWithRelationInput;
+  }): Promise<Skeleton[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.skeleton.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });  }
+
+  findOne(skeletonWhereUniqueInput: Prisma.SkeletonWhereUniqueInput) {
+    return this.prisma.skeleton.findUnique({
+      where: skeletonWhereUniqueInput,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} skeleton`;
-  }
+  update(params: {
+    where: Prisma.SkeletonWhereUniqueInput;
+    data: Prisma.SkeletonUpdateInput;
+  }): Promise<Skeleton> {
+    const { data, where } = params;
+    return this.prisma.skeleton.update({
+      data,
+      where,
+    });  }
 
-  update(id: number, updateSkeletonDto: UpdateSkeletonDto) {
-    return `This action updates a #${id} skeleton`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} skeleton`;
-  }
+    remove(where: Prisma.SkeletonWhereUniqueInput): Promise<Skeleton> {
+      return this.prisma.skeleton.delete({
+        where,
+      });  }
 }

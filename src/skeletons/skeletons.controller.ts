@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { SkeletonsService } from './skeletons.service';
 import { CreateSkeletonDto } from './dto/create-skeleton.dto';
 import { UpdateSkeletonDto } from './dto/update-skeleton.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 
 @ApiTags('skeletons')
 @Controller('skeletons')
@@ -16,21 +17,21 @@ export class SkeletonsController {
 
   @Get()
   findAll() {
-    return this.skeletonsService.findAll();
+    return this.skeletonsService.findAll({});
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.skeletonsService.findOne(+id);
+  @Get(':nodeType/:field')
+  findOne(@Param('nodeType') nodeType: string, @Param('field') field: string) {
+    return this.skeletonsService.findOne({nodeType_field: {nodeType: Number(nodeType), field: Number(field)}});
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSkeletonDto: UpdateSkeletonDto) {
-    return this.skeletonsService.update(+id, updateSkeletonDto);
+  @Put(':nodeType/:field')
+  update(@Param('nodeType') nodeType: string, @Param('field') field: string, @Body() updateSkeletonDto: UpdateSkeletonDto) {
+    return this.skeletonsService.update({ where: {nodeType_field: {nodeType: Number(nodeType), field: Number(field)}}, data: updateSkeletonDto});
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.skeletonsService.remove(+id);
+  @Delete(':nodeType/:field')
+  remove(@Param('nodeType') nodeType: string, @Param('field') field: string) {
+    return this.skeletonsService.remove({nodeType_field: {nodeType: Number(nodeType), field: Number(field)}});
   }
 }

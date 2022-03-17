@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { NodeTypesService } from './node-types.service';
 import { CreateNodeTypeDto } from './dto/create-node-type.dto';
 import { UpdateNodeTypeDto } from './dto/update-node-type.dto';
@@ -24,7 +24,7 @@ export class NodeTypesController {
     return this.nodeTypesService.findOne({id: Number(id)});
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateNodeTypeDto: UpdateNodeTypeDto) {
     return this.nodeTypesService.update({ where: {id: Number(id)}, data: updateNodeTypeDto});
   }

@@ -31,3 +31,7 @@ yarn-error.log*
 
 # log files
 logs/*
+
+
+# seed files
+seed
