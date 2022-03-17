@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { NamespacesService } from './namespaces.service';
 import { CreateNamespaceDto } from './dto/create-namespace.dto';
 import { UpdateNamespaceDto } from './dto/update-namespace.dto';
@@ -16,21 +16,21 @@ export class NamespacesController {
 
   @Get()
   findAll() {
-    return this.namespacesService.findAll();
+    return this.namespacesService.findAll({});
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.namespacesService.findOne(+id);
+  @Get(':uri')
+  findOne(@Param('uri') uri: string) {
+    return this.namespacesService.findOne({ uri });
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNamespaceDto: UpdateNamespaceDto) {
-    return this.namespacesService.update(+id, updateNamespaceDto);
+  @Put(':uri')
+  update(@Param('uri') uri: string, @Body() updateNamespaceDto: UpdateNamespaceDto) {
+    return this.namespacesService.update({ where: {uri:uri}, data: updateNamespaceDto});
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.namespacesService.remove(+id);
+  @Delete(':uri')
+  remove(@Param('uri') uri: string) {
+    return this.namespacesService.remove({ uri });
   }
 }

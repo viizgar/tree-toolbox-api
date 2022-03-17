@@ -1,26 +1,14 @@
 import { Field, Prisma } from '@prisma/client'
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { CreateFieldDto } from './create-field.dto';
 
 
-export class UpdateFieldDto implements Field {
+export class UpdateFieldDto extends PartialType(CreateFieldDto) {
     @ApiProperty()
     id: number;
     @ApiProperty()
     created: Date;
     @ApiProperty()
     modified: Date;
-    @ApiProperty()
-    namespace: string
-    @ApiProperty()
-    name: string
-    @ApiProperty()
-    label: string
-    @ApiProperty()
-    weight: number
-    @ApiProperty()
-    restrictions: Prisma.JsonValue
-    @ApiProperty()
-    fieldType: string
-    @ApiProperty()
-    description: string
+    
 }

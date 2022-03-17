@@ -2,7 +2,7 @@ import { Field, Prisma } from '@prisma/client'
 import { ApiProperty } from '@nestjs/swagger';
 
 
-export class CreateFieldDto {
+export class CreateFieldDto  {
     @ApiProperty()
     namespace: string
     @ApiProperty()
