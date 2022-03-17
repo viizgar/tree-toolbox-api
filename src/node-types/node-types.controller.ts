@@ -16,21 +16,21 @@ export class NodeTypesController {
 
   @Get()
   findAll() {
-    return this.nodeTypesService.findAll();
+    return this.nodeTypesService.findAll({});
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.nodeTypesService.findOne(+id);
+    return this.nodeTypesService.findOne({id: Number(id)});
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateNodeTypeDto: UpdateNodeTypeDto) {
-    return this.nodeTypesService.update(+id, updateNodeTypeDto);
+    return this.nodeTypesService.update({ where: {id: Number(id)}, data: updateNodeTypeDto});
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.nodeTypesService.remove(+id);
+    return this.nodeTypesService.remove({id: Number(id)});
   }
 }
