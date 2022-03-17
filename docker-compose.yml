@@ -21,25 +21,27 @@ services:
         environment:
             - DATABASE_URL=postgresql://toolbox:toolbox@db:5432/toolbox
         restart: unless-stopped
-    prod:
-        container_name: tree-toolbox_api_prod
-        image: tree-toolbox-api-prod:1.0.0
-        build:
-            context: .
-            target: production
-            dockerfile: ./Dockerfile
-        command: npm run start:prod
-        ports:
-            - 3000:3000
-            - 9229:9229
-        networks:
-            - app-network
-        volumes:
-            - .:/usr/src/app
-            - /usr/src/app/node_modules
-        environment:
-            - DATABASE_URL=postgresql://toolbox:toolbox@db:5432/toolbox
-        restart: unless-stopped
+    # prod:
+    #    container_name: tree-toolbox_api_prod
+    #    image: tree-toolbox-api-prod:1.0.0
+    #    build:
+    #        context: .
+    #        target: production
+    #        dockerfile: ./Dockerfile
+    #    command: npm run start:prod
+    #    ports:
+    #        - 3000:3000
+    #        - 8080:8080
+    #        - 9229:9229
+    #    networks:
+    #        - app-network
+    #    volumes:
+    #        - .:/usr/src/app
+    #        - /usr/src/app/node_modules
+    #    environment:
+    #        - DATABASE_URL=postgresql://toolbox:toolbox@db:5432/toolbox
+    #    restart: unless-stopped
+    # 
     db:
         image: postgres:latest
         restart: always

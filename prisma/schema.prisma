@@ -8,7 +8,7 @@ datasource db {
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native"]
+    binaryTargets = ["native", "darwin-arm64"]
 }
 
 model NodeType {
@@ -35,6 +35,7 @@ model Skeleton {
   nodeType    Int
   fieldRel    Field    @relation(fields: [field], references: [id])
   field       Int
+  weight      Int     @default(999)
   created     DateTime @default(now())
   modified    DateTime @updatedAt
 
