@@ -24,6 +24,11 @@ export class NamespacesController {
     return this.namespacesService.findOne({ uri });
   }
 
+  @Put()
+  replaceAll(@Body() namespaces: Array<CreateNamespaceDto>) {
+    return this.namespacesService.replaceAll({ data: namespaces } );
+  }
+
   @Put(':uri')
   update(@Param('uri') uri: string, @Body() updateNamespaceDto: UpdateNamespaceDto) {
     return this.namespacesService.update({ where: {uri:uri}, data: updateNamespaceDto});

@@ -49,6 +49,17 @@ export class FieldsService {
       where,
     });  }
 
+    async replaceAll(params: {
+      data: Array<Prisma.FieldCreateManyInput>;
+    }): Promise<Array<Field>> {
+      const { data } = params;
+      await this.prisma.field.deleteMany();
+      await this.prisma.field.createMany({
+        data,
+      }); 
+      return this.prisma.field.findMany({}); 
+    }
+
   remove(where: Prisma.FieldWhereUniqueInput): Promise<Field> {
     return this.prisma.field.delete({
       where,

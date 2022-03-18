@@ -24,6 +24,11 @@ export class NodeTypesController {
     return this.nodeTypesService.findOne({id: Number(id)});
   }
 
+  @Put()
+  replaceAll(@Body() nodeTypes: Array<CreateNodeTypeDto>) {
+    return this.nodeTypesService.replaceAll({ data: nodeTypes } );
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateNodeTypeDto: UpdateNodeTypeDto) {
     return this.nodeTypesService.update({ where: {id: Number(id)}, data: updateNodeTypeDto});

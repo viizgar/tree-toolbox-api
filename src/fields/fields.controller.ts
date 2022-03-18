@@ -24,6 +24,11 @@ export class FieldsController {
     return this.fieldsService.findOne({ id: Number(id) });
   }
 
+  @Put()
+  replaceAll(@Body() fields: Array<CreateFieldDto>) {
+    return this.fieldsService.replaceAll({ data: fields } );
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateField: UpdateFieldDto) {
     return this.fieldsService.update({ data: updateField, where: {id: Number(id)} } );

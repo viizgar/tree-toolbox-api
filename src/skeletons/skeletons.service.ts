@@ -37,6 +37,19 @@ export class SkeletonsService {
     });
   }
 
+  async replaceAll(params: {
+    data: Array<Prisma.SkeletonCreateManyInput>;
+  }): Promise<Array<Skeleton>> {
+    const { data } = params;
+    await this.prisma.skeleton.deleteMany();
+    await this.prisma.skeleton.createMany({
+      data,
+    }); 
+    return this.prisma.skeleton.findMany({}); 
+  }
+
+
+
   update(params: {
     where: Prisma.SkeletonWhereUniqueInput;
     data: Prisma.SkeletonUpdateInput;

@@ -25,6 +25,11 @@ export class SkeletonsController {
     return this.skeletonsService.findOne({nodeType_field: {nodeType: Number(nodeType), field: Number(field)}});
   }
 
+  @Put()
+  replaceAll(@Body() skeletons: Array<CreateSkeletonDto>) {
+    return this.skeletonsService.replaceAll({ data: skeletons } );
+  }
+
   @Put(':nodeType/:field')
   update(@Param('nodeType') nodeType: string, @Param('field') field: string, @Body() updateSkeletonDto: UpdateSkeletonDto) {
     return this.skeletonsService.update({ where: {nodeType_field: {nodeType: Number(nodeType), field: Number(field)}}, data: updateSkeletonDto});

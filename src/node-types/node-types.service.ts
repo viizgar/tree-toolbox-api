@@ -37,6 +37,18 @@ export class NodeTypesService {
       });
     }
 
+    async replaceAll(params: {
+      data: Array<Prisma.NodeTypeCreateManyInput>;
+    }): Promise<Array<NodeType>> {
+      const { data } = params;
+      await this.prisma.nodeType.deleteMany();
+      await this.prisma.nodeType.createMany({
+        data,
+      }); 
+      return this.prisma.nodeType.findMany({}); 
+    }
+
+
     update(params: {
       where: Prisma.NodeTypeWhereUniqueInput;
       data: Prisma.NodeTypeUpdateInput;

@@ -47,6 +47,17 @@ export class NamespacesService {
         where,
       });  }
 
+      async replaceAll(params: {
+        data: Array<Prisma.NamespaceCreateManyInput>;
+      }): Promise<Array<Namespace>> {
+        const { data } = params;
+        await this.prisma.namespace.deleteMany();
+        await this.prisma.namespace.createMany({
+          data,
+        }); 
+        return this.prisma.namespace.findMany({}); 
+      }  
+
       remove(where: Prisma.NamespaceWhereUniqueInput): Promise<Namespace> {
         return this.prisma.namespace.delete({
           where,
